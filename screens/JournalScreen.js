@@ -7,11 +7,11 @@ const JournalScreen = ({navigation}) => {
     const radioButtons = useMemo(() => ([
         {
             id: '1', 
-            label: 'Strongly Disagree',
+            label: 'Very sad',
         },
         {
             id: '2',
-            label: 'Disagree',
+            label: 'Sad',
         },
         {
             id: '3', 
@@ -19,60 +19,15 @@ const JournalScreen = ({navigation}) => {
         },
         {
             id: '4', 
-            label: 'Agree',
+            label: 'Happy',
         },
         {
             id: '5', 
-            label: 'Strongly Agree',
-        },
-    ]), []);
-
-    const radioButtons1 = useMemo(() => ([
-        {
-            id: '6', 
-            label: 'Strongly Disagree',
-        },
-        {
-            id: '7',
-            label: 'Disagree',
-        },
-        {
-            id: '8', 
-            label: 'Neutral',
-        },
-        {
-            id: '9', 
-            label: 'Agree',
-        },
-        {
-            id: '10', 
-            label: 'Strongly Agree',
+            label: 'Very Happy',
         },
     ]), []);
 
     
-    const radioButtons2 = useMemo(() => ([
-        {
-            id: '11', 
-            label: 'Strongly Disagree',
-        },
-        {
-            id: '12',
-            label: 'Disagree',
-        },
-        {
-            id: '13', 
-            label: 'Neutral',
-        },
-        {
-            id: '14', 
-            label: 'Agree',
-        },
-        {
-            id: '15', 
-            label: 'Strongly Agree',
-        },
-    ]), []);
 
 
     const [selectedId, setSelectedId] = useState();
@@ -84,37 +39,13 @@ const JournalScreen = ({navigation}) => {
         />
         <View style = {styles.space}
         />
-        <Text>Today I was happy</Text>
+        <Text>How are you feeling today?</Text>
          <RadioButton
             radioButtons={radioButtons} 
             onPress={setSelectedId} 
             selectedId={selectedId}
-            layout = 'row'
         />
-        <View style = {styles.space2}
-        />
-        <Text>Today I was upset</Text>
-         <RadioButton 
-            radioButtons={radioButtons1} 
-            onPress={setSelectedId} 
-            selectedId={selectedId}
-            layout = 'row'
-        />
-        <View style = {styles.space2}
-        />
-        <Text>Today I was angry</Text>
-         <RadioButton 
-            radioButtons={radioButtons2} 
-            onPress={setSelectedId}
-            selectedId={selectedId}
-            layout = 'row'  
-        />
-        <View style = {styles.space}
-        />
-          <Button
-            title = 'Mood Tracking'
-            onPress = {() => navigation.navigate('Data')}
-          />
+        
     </SafeAreaView>
   )
 }

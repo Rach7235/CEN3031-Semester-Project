@@ -18,6 +18,13 @@ const LoginScreen = ({navigation}) => {
           title = 'Login'
           onPress = {() => navigation.navigate("Journal")}
         />
+        <View
+          style = {styles.space}
+        />
+        <Button
+          title = 'Register'
+          onPress = {() => navigation.navigate("Register")}
+        />
     </SafeAreaView>
   )
 }
