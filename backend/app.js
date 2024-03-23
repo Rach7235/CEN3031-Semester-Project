@@ -11,32 +11,31 @@ mongoose.connect(mongoUrl).then(()=>{
     console.log(e);
 });
 
-const UserDetailSchema = new mongoose.Schema({
-    name:String,
-    password:String,
-    entries:Array,
+// Schema for userInfo collection
+const UserInfoSchema = new mongoose.Schema({
+    _id:String,
+    pass:String,
 },{
-    collection:"Users"
+    collection:"userInfo"
 });
-const User=mongoose.model("Users", UserDetailSchema);
+const User=mongoose.model("UserInfo", UserInfoSchema);
 app.get("/", (req, res)=>{
     res.send({status:"Started"})
 });
 
 app.post('/register', async(req,res)=>{
-    const {name, password, entries}=req.body;
+    const {name, password}=req.body;
     const oldUser = await User.findOne({name:name});
 
-// If user's full name is already registered, the user already exists
+// If user's ID is already registered, the user already exists
 if (oldUser) {
     return res.send({data: "User already exists!"});
 }
     try {
-        // Create user in mongoDb database with schema
+        // Otherwise, create user in userInfo collection with schema
         await User.create({
-            name:name,
-            password:password,
-            entries:entries,
+            _id:name,
+            pass:password,
         });
         res.send({status:"ok",data:"User Created"});
     } catch(error) {
