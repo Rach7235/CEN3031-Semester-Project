@@ -4,6 +4,7 @@ import axios from 'axios';
 import Feather from 'react-native-vector-icons/Feather';
 import {useState} from 'react';
 import { TouchableOpacity } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const LoginScreen = (props) => { const {navigation} = props;
@@ -22,11 +23,14 @@ function handleSubmit(){
   // If user exists in database, login was successful
   if (res.data.status=="ok") {
     Alert.alert("Log in successful!")
+    // Set token to user information, every login is a unique token
+    AsyncStorage.setItem('token', res.data.data);
+    AsyncStorage.setItem('isLoggedIn', JSON.stringify(true));
     navigation.navigate('Home')
   }
+    // Login failed
   else {
-    // Login did not work
-    Alert.alert("Login Unsuccessful. Try again");
+    Alert.alert("This user does not exist. Please Register");
   }
 })
 }
@@ -101,4 +105,6 @@ const styles = StyleSheet.create({
     width: 300,
   },
 });
+
+
 
