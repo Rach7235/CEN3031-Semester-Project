@@ -1,8 +1,7 @@
 import { StyleSheet, Text, View, TextInput, SafeAreaView, Button, Alert} from 'react-native';
 import axios from 'axios';
-import React from 'react';
+import React, { useMemo, useState, useEffect} from 'react';
 import Feather from 'react-native-vector-icons/Feather';
-import {useState} from 'react';
 import { TouchableOpacity } from "react-native";
 
 
@@ -13,6 +12,29 @@ const RegisterScreen = (props) => { const {navigation} = props;
     const [passwordVerify, setPasswordVerify] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
+    function handleSubmit() {
+      const userData = {
+        id: name,
+        password: password,
+      }
+      if (nameVerify && passwordVerify) {
+        axios.post("http://192.168.254.28:8001/register", userData)
+        .then(res => {console.log(res.data)
+        if (res.data.status =="ok") {
+          // If user is created, registration is successful
+          Alert.alert("Registration Successful!");
+          navigation.navigate("Login");
+        } else {
+          Alert.alert(JSON.stringify(res.data));
+        }
+        })
+        .catch(e => console.log(e));
+      }
+      else {
+        Alert.alert("Please fill in mandatory details");
+      }
+          
+          }
     function handleName(e) {
       const nameVar=e.nativeEvent.text;
       setName(nameVar);
@@ -27,42 +49,17 @@ const RegisterScreen = (props) => { const {navigation} = props;
       const passwordVar = e.nativeEvent.text;
       setPassword(passwordVar);
       setPasswordVerify(false);
-      // Allow uppercase, lowercase, and one special character
+      // Allow uppercase, lowercase, and 6 or more characters
       if(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(passwordVar)) {
           setPassword(passwordVar);
-          setPasswordVerify(false);
+          setPasswordVerify(true);
       }
   }
 
-  function handleSubmit() {
-    const userData = {
-      id: name,
-      password: password,
-    }
-      axios.post("http://192.168.254.28:8001/register", userData).
-      then(res => {
-        console.log(res.data);
-        if (res.data.status =="ok") {
-           // If user is created, registration is successful
-          Alert.alert("Registration Successful!");
-          navigation.navigate("Login");
-        }
-        // If user is not created, please fill in details
-        // User might already exist
-          else {
-            Alert.alert("Please fill in mandatory details");
-          }
-      })
-      .catch(e => console.log(e));
-      }
-    
-   
-  
-   
-  
-
+      
   return (
-    <SafeAreaView style = {styles.container}>
+    <SafeAreaView style = {styles.container}
+    keyboardShouldPersistTaps={true}>
         <Text>Register Screen</Text>
         <TextInput
           style = {styles.input}
@@ -101,9 +98,17 @@ const RegisterScreen = (props) => { const {navigation} = props;
             style =  {{marginRight: -10}}
             color={'green'}
             size={23}
-          />)
-}
-        </TouchableOpacity>
+          />)}
+  </TouchableOpacity>
+  {password.length < 1 ? null : passwordVerify ? null: (
+    <Text
+      style = {{
+            marginLeft: 20,
+            color: 'red',
+          }}>
+          Uppercase, Lowercase, Number, and 6 or more characters.
+    </Text>
+  )}
         <Button
             title = 'Sign Up'
             onPress={() => handleSubmit()}
@@ -111,9 +116,6 @@ const RegisterScreen = (props) => { const {navigation} = props;
          </SafeAreaView>
   )
 }
-
-
-
 
 
 export default RegisterScreen;
