@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View, TextInput, SafeAreaView, Button, ScrollView} from 'react-native';
 import React, { Component } from 'react';
-import Pie from 'react-native-pie'
 
 const DataScreen = () => {
 
