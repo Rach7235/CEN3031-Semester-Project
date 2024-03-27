@@ -1,4 +1,4 @@
-mport { StyleSheet, Text, View, TextInput, SafeAreaView, Button, Alert} from 'react-native';
+import { StyleSheet, Text, View, TextInput, SafeAreaView, Button, Alert} from 'react-native';
 import React, { useMemo, useState, useEffect} from 'react';
 import RadioButton from 'react-native-radio-buttons-group';
 import axios from 'axios';
